@@ -1,7 +1,6 @@
-// src/components/DataFetcher.js
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getProducts } from '../services/productService';
 
 const DataFetcher = () => {
   const [data, setData] = useState([]);
@@ -9,7 +8,7 @@ const DataFetcher = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('https://api.escuelajs.co/api/v1/products')
+    getProducts()
       .then(response => {
         setData(response.data);
         setLoading(false);

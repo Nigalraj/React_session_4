@@ -1,7 +1,7 @@
-// src/components/ItemDetail.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { deleteProducts, updateProducts } from '../services/productService';
 
 const ItemDetail = () => {
   const { id } = useParams();
@@ -38,7 +38,7 @@ const ItemDetail = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await axios.put(`https://api.escuelajs.co/api/v1/products/${id}`, formData);
+      const response = await updateProducts(id,formData)
       setItem(response.data);
       setEditMode(false); 
       alert('Item updated successfully!');
@@ -48,9 +48,10 @@ const ItemDetail = () => {
     }
   };
 
+
   const handleDelete = async () => {
     try {
-      await axios.delete(`https://api.escuelajs.co/api/v1/products/${id}`);
+      await deleteProducts(id);
       alert('Item deleted successfully!');
       navigate('/');
     } catch (error) {
@@ -114,7 +115,6 @@ const ItemDetail = () => {
             <img src={item.category.image} alt={item.category.name} width="100" />
             <p>Category Creation At: {new Date(item.category.creationAt).toLocaleString()}</p>
             <p>Category Updated At: {new Date(item.category.updatedAt).toLocaleString()}</p>
-
             <button onClick={() => setEditMode(true)}>Edit Item</button>
             <button onClick={handleDelete}>Delete Item</button>
           </div>
